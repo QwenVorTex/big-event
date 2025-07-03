@@ -1,13 +1,25 @@
 package org.ccnuiot.bigevent;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtTest {
 
     @Test
     public void testJwt() {
-        // 这里可以添加测试代码来验证 JWT 的生成和解析
-        // 例如，使用一个 JWT 库来生成一个 token，然后解析它并验证其内容
-        // 目前没有具体的实现细节，所以这里只是一个空方法
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", 1);
+        claims.put("username", "liyuning");
+        String token = JWT.create()
+                .withClaim("user", claims)
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .sign(Algorithm.HMAC256("ccnuiotapp"));
+
+        System.out.println(token);
     }
 }
