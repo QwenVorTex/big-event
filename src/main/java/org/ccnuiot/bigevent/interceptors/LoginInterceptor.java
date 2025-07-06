@@ -2,7 +2,6 @@ package org.ccnuiot.bigevent.interceptors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.ccnuiot.bigevent.pojo.Result;
 import org.ccnuiot.bigevent.utils.JwtUtil;
 import org.ccnuiot.bigevent.utils.ThreadLocalUtil;
 import org.springframework.stereotype.Component;
