@@ -6,6 +6,7 @@ import org.ccnuiot.bigevent.pojo.User;
 import org.ccnuiot.bigevent.service.UserService;
 import org.ccnuiot.bigevent.utils.JwtUtil;
 import org.ccnuiot.bigevent.utils.Md5Util;
+import org.ccnuiot.bigevent.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -68,9 +69,10 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public Result<User> userInfo(@RequestHeader(name = "Authorization") String token) {
+    public Result<User> userInfo(/*@RequestHeader(name = "Authorization") String token*/) {
         //根据用户名查找用户
-        Map<String, Object> map = JwtUtil.parseToken(token);
+        /*Map<String, Object> map = JwtUtil.parseToken(token);*/
+        Map<String, Object> map = ThreadLocalUtil.get();
         String username = (String) map.get("username");
 
         User user = userService.findByUsername(username);
