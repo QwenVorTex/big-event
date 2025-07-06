@@ -9,6 +9,7 @@ import org.ccnuiot.bigevent.utils.Md5Util;
 import org.ccnuiot.bigevent.utils.ThreadLocalUtil;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,6 +95,28 @@ public class UserController {
 
     @PatchMapping("/updatePassword")
     public Result updatePassword(@RequestBody Map<String, String> params) {
+        String oldPassword = params.get("old_password");
+        String newPassword = params.get("new_password");
+        String confirmPassword = params.get("confirm_password");
+
+        // 校验参数
+        if (!StringUtils.hasLength(oldPassword) || !StringUtils.hasLength(newPassword) || !StringUtils.hasLength(confirmPassword)) {
+            return Result.error("密码不能为空");
+        }
+
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+        User loginUser = userService.findByUsername(username);
+
+        if (loginUser.getPassword().equals(Md5Util.getMD5String(oldPassword))) {
+            return Result.error("密码错误");
+        }
+
+        if (!confirmPassword.equals(newPassword)) {
+            return Result.error("两次输入的密码不一致");
+        }
+
+        userService.updatePassword(newPassword);
         return Result.success();
     }
 }
