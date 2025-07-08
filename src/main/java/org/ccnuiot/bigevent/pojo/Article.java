@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.ccnuiot.bigevent.anno.State;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,8 @@ public class Article {
     @URL
     private String coverImg;//封面图像
 
-    @Pattern(regexp = "^(已发布|草稿)$", message = "发布状态只能是'已发布'或'草稿'")
+    //    @Pattern(regexp = "^(已发布|草稿)$", message = "发布状态只能是'已发布'或'草稿'")
+    @State
     private String state;//发布状态 已发布|草稿
 
     @NotNull
